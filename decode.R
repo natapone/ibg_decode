@@ -1,14 +1,57 @@
 # USAGE
 # Testing
 #> test_example()
-#> test_conversion()
+#> test_parse()
 
 # Decode
 #> decode(email)
 
 alpha_base = length(letters) # 26
 
+test_parse <- function() {
+    
+    test <- function(x) {
+        cat("TEST:", x, "\n")
+        print(parse_str(x))
+    }
+    
+    test_list = c(
+        "a+ a == a",
+        "z + b == ba",
+        "lina + luna == xdaa",
+        "is + and == vv"
+    )
+    
+    # Apply test to list
+    sapply(test_list, test )
+}
 
+parse_str <- function(str) {
+    # init
+    alpha_base = length(letters) # 26
+    
+    vars = strsplit(str, split="\\W+" , perl = T)
+    
+    for(var in vars[[1]]) {
+        alpha = alpha_to_int(var)
+        
+        # assign variable
+        var_int = paste(var, "=", alpha, collapse = " ")
+        if (!is.null(alpha)) {
+            cat(var_int , "\n")
+            eval(parse(text = var_int ))
+        }
+    }
+    
+    str = fix_r_compat(str)
+#     print(str)
+    # http://stat.ethz.ch/R-manual/R-devel/library/base/html/sum.html
+    # Loss of accuracy can occur when summing values of different signs
+    # , but this is platform-dependent.
+    
+    # It's seem to have problem on my Mac. but on Windows, it woeks fine
+    eval(parse(text = str ))
+}
 
 
 test_example <- function() {
@@ -74,3 +117,13 @@ char_to_num <- function(a) which(letters == a) - 1
 num_to_char <- function(i) letters[i + 1]
 
 mod <- function(x, y) c(floor(x / y), x %% y )
+
+fix_r_compat <- function(str) {
+    # fix [] square bracket
+    str = gsub("\\[", "\\(", str, perl = TRUE)
+    str = gsub("\\]", "\\)", str, perl = TRUE)
+    
+    # remove tricky zero
+    # R will return NaN when cal 0^x
+    sub("a\\*\\(.*?\\)", "a", str, perl = TRUE)
+}
