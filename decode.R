@@ -7,6 +7,13 @@
 #> decode(email)
 
 alpha_base = length(letters) # 26
+email = "[([dota + is + ijlegcod]/[a*(game^of^love) + b])*zanroo ] + tmfafj"
+
+decode <- function(str) {
+    int = parse_str(str)
+    ans = int_to_alpha(int)
+    paste(ans, collapse = "")
+}
 
 test_parse <- function() {
     
