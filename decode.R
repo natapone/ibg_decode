@@ -1,4 +1,24 @@
+# USAGE
+# Testing
+#> test_example()
+#> test_conversion()
+
+# Decode
+#> decode(email)
+
 alpha_base = length(letters) # 26
+
+
+
+
+test_example <- function() {
+    cat("Test: a+ a = a \n")
+    print(alpha_to_int("a") + alpha_to_int("a") == alpha_to_int("a"))
+    
+    cat("Test: z + b = ba \n")
+    print(alpha_to_int("z") + alpha_to_int("b") == alpha_to_int("ba"))
+}
+
 
 int_to_alpha <- function (i=0, a=NULL) {
     cat(i, a , "\n", sep=" - ")
